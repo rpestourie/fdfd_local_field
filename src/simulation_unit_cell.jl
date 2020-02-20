@@ -32,7 +32,18 @@ end
 
 """
 ```x, y, zeroth_order = get_local_field(ps; refractive_indexes=zeros(3))```
-this function simulates the holes structure, and computes the zeroth-order Fourier coefficient.
+    this function simulates the structure with holes using Maxwell's equations,
+    and computes the zeroth-order Fourier coefficient.
+
+input arguments:
+
+- ps: array with parametrization of the unit-cell corresponding the widths of holes in the substrate
+- refractive_indexes: optional argument with refractive indexes of background,
+hole and substrate. For reference simulation: set refractive indexes to ones(3)*eps_substrate
+
+returns:
+
+- return the complex zeroth order Fourier coefficient of the transmitted field
 """
 function get_local_field(ps; simulate_unit_cell=simulation_hole_layers_unit_cell, refractive_indexes=zeros(3))
     x, y, Ez, dpml, dsource, resolution = simulate_unit_cell(ps,

@@ -23,5 +23,15 @@ refractive_indexes_sim = Float64[1.0, 1.0, 1.45]
 # TODO: embarassingly parallel code to parallelize
 sim_local_fields = ComplexF32[get_local_field(ps_array[it_ps, :], refractive_indexes=refractive_indexes_sim)[3] for it_ps=1:size(ps_array)[1]]
 
+using BenchmarkTools
+
+# @btime sim_local_fields = ComplexF32[get_local_field(ps_array[it_ps, :],
+# refractive_indexes=refractive_indexes_sim)[3] for it_ps=1:size(ps_array)[1]]
+
+sim_local_fields = zeros(ComplexF64, (number_holes+1)*number_training_data)
+@btime @inbounds Base.Threads.@threads for it_ps=1:size(ps_array)[1]
+    sim_local_fields[it_ps] = get_local_field(ps_array[it_ps, :], refractive_indexes=refractive_indexes_sim)[3]
+end
+
 local_field_data = sim_local_fields./ref_local_field
 writedlm("examples/data/"*fname,hcat(ps_array, real.(local_field_data), imag.(local_field_data)), ',')

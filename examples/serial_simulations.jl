@@ -5,11 +5,11 @@ using BenchmarkTools
 using DelimitedFiles
 
 println("$(Threads.nthreads()) threads!")
-number_training_data = 10000 # ideally 1e5 here
+number_training_data = 100000 # ideally 1e5 here
 
 r = rand()
-fname = "test_data_$(round(Int, r*1e5)).csv"
 δ = 1e-2
+fname = "test_data_$(round(Int, r*1e5))_$δ.csv"
 number_holes = 5
 lb = 0.1 # for a blue wavelength this corresponds to a minimum feature of ≈40 nm
 ub = 0.95 - lb # this assumes a period of 0.95 λ
@@ -34,7 +34,7 @@ refractive_indexes_sim = Float64[1.0, 1.0, 1.45]
 # @assert all(sim_local_fields .≈ sim_local_fields2)
 
 sim_local_fields = zeros(ComplexF64, (number_holes+1)*number_training_data)
-@inbounds Base.Threads.@threads for it_ps=1:size(ps_array)[1]
+@time @inbounds Base.Threads.@threads for it_ps=1:size(ps_array)[1]
     sim_local_fields[it_ps] = get_local_field(ps_array[it_ps, :], refractive_indexes=refractive_indexes_sim)[3]
 end
 local_field_data = sim_local_fields./ref_local_field

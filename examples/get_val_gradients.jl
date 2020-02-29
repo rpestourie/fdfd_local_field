@@ -2,7 +2,7 @@ include("../src/fdfd_local_field.jl")
 
 using DelimitedFiles
 
-fname="examples/data/test_data_39796_0.01.csv"
+fname="examples/data/test_data__0.01.csv"
 data_array = readdlm(fname, ',')
 start_index = findnext('.', fname, 1) - 1
 end_index = findnext('.', fname, start_index+2) - 1

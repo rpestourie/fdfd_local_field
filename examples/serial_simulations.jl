@@ -5,7 +5,7 @@ using BenchmarkTools
 using DelimitedFiles
 
 println("$(Threads.nthreads()) threads!")
-number_training_data = 100000 # ideally 1e5 here
+number_training_data = 350000 # ideally 1e5 here
 
 r = rand()
 δ = 1e-2

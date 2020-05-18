@@ -5,12 +5,12 @@ using BenchmarkTools
 using DelimitedFiles
 
 println("$(Threads.nthreads()) threads!")
-number_training_data = 350000 # ideally 1e5 here
+number_training_data = 150000 # ideally 1e5 here
 
 r = rand()
 δ = 1e-2
 fname = "test_data_$(round(Int, r*1e5))_$δ.csv"
-number_holes = 5
+number_holes = 10
 lb = 0.1 # for a blue wavelength this corresponds to a minimum feature of ≈40 nm
 ub = 0.95 - lb # this assumes a period of 0.95 λ
 

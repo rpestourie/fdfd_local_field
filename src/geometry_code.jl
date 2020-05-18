@@ -53,7 +53,7 @@ function ϵ_hole_layers(x, y, ps; refractive_indexes=zeros(3))
 
     # holes
     number_holes = length(ps)
-    n_inter_hole = floor(Int64, 0.75 / refractive_index_substrate / δ)
+    n_inter_hole = floor(Int64, 0.5 / refractive_index_substrate / δ)
     n_hole_height = floor(Int64, 0.75 / δ)
 
     @assert index_top_substrate + number_holes * (n_inter_hole + n_hole_height) < ny

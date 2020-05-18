@@ -3,12 +3,12 @@
 """
 ```x, y, Ez, dpml, dsource, resolution = simulate_unit_cell(ps; refractive_indexes=zeros(3))```
 This function simulates Helmholtz equation for a unit-cell consisting of holes in a substrate."""
-function simulation_hole_layers_unit_cell(ps; refractive_indexes=zeros(3))
+function simulation_hole_layers_unit_cell(ps; refractive_indexes=zeros(3), frequency=1)
     #parameters for Maxwell solver
     # specific to the unit-cell
     Lx = 0.95
-    Ly = 12
-    ω = 2pi
+    Ly = 17
+    ω = 2pi*frequency
     dpml = 2
     resolution = 40
     dsource = 1
@@ -45,8 +45,8 @@ returns:
 
 - return the complex zeroth order Fourier coefficient of the transmitted field
 """
-function get_local_field(ps; simulate_unit_cell=simulation_hole_layers_unit_cell, refractive_indexes=zeros(3))
+function get_local_field(ps; simulate_unit_cell=simulation_hole_layers_unit_cell, refractive_indexes=zeros(3), frequency=1)
     x, y, Ez, dpml, dsource, resolution = simulate_unit_cell(ps,
-    refractive_indexes=refractive_indexes)
+    refractive_indexes=refractive_indexes, frequency=frequency)
     return x, y, mean(Ez[(dpml + dsource) * resolution, :])
 end

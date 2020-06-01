@@ -1,18 +1,19 @@
 """
-```ϵ_hole_layers(x, y, ps)```
+```ϵ_hole_layers(x, y, ps, interstice = 0.5, hole = 0.75)```
 return the permittivity of a unit-cell which consists of air holes in silica
 
 Arguments:
 
 - ps : widths of the air holes (need to be unit-less)
-- refractive_indexes : optional argument with refractive indexes of background,
-hole and substrate. For reference simulation: set refractive indexes to ones(3)*eps_substrate
+- refractive_indexes : optional argument with refractive indexes of background, hole and substrate. For reference simulation: set refractive indexes to ones(3)*eps_substrate
+- interstice (optional): number of wavelength in between holes
+- hole (optional): number of wavelength in the holes
 
 Returns:
 
 - geometry : a complex array with the epsilon data of the unit-cell
 """
-function ϵ_hole_layers(x, y, ps; refractive_indexes=zeros(3))
+function ϵ_hole_layers(x, y, ps; refractive_indexes=zeros(3), interstice = 0.5, hole = 0.75)
     @assert length(x)> 2 # makes sure δ is defined
 
     nx, ny = length(x), length(y)
@@ -53,8 +54,8 @@ function ϵ_hole_layers(x, y, ps; refractive_indexes=zeros(3))
 
     # holes
     number_holes = length(ps)
-    n_inter_hole = floor(Int64, 0.5 / refractive_index_substrate / δ)
-    n_hole_height = floor(Int64, 0.75 / δ)
+    n_inter_hole = floor(Int64, interstice / refractive_index_substrate / δ)
+    n_hole_height = floor(Int64, hole / δ)
 
     @assert index_top_substrate + number_holes * (n_inter_hole + n_hole_height) < ny
     # makes sure that Ly is big enough for the holes (possibly in PML)

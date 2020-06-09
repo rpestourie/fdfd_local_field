@@ -30,6 +30,8 @@ function simulation_hole_layers_unit_cell(ps; refractive_indexes=zeros(3), frequ
     return x, y, Ez, dpml, dsource, resolution
 end
 
+
+
 """
 ```x, y, zeroth_order = get_local_field(ps; refractive_indexes=zeros(3), frequency=1, interstice = 0.5, hole = 0.75, Ly = 17)```
     this function simulates the structure with holes using Maxwell's equations,

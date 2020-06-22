@@ -6,8 +6,8 @@ Arguments:
 
 - ps : widths of the air holes (need to be unit-less)
 - refractive_indexes : optional argument with refractive indexes of background, hole and substrate. For reference simulation: set refractive indexes to ones(3)*eps_substrate
-- interstice (optional): number of wavelength in between holes
-- hole (optional): number of wavelength in the holes
+- interstice (optional): number of length_scale in between holes acounting for the permittivity of the substrate
+- hole (optional): number of length_scale in the holes
 
 Returns:
 

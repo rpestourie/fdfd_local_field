@@ -98,7 +98,7 @@ return the permittivity of a unit-cell which consists of a pillar on top of a su
 
 Arguments:
 
-- ps : width and height of the pillar
+- ps : width and height of the pillar (adimensional)
 - refractive_indexes : optional argument with refractive indexes of background, hole and substrate. For reference simulation: set refractive indexes to ones(3)*eps_substrate
 
 Returns:
@@ -137,7 +137,7 @@ function ϵ_pillar_function(x, y, ps; refractive_indexes=zeros(3))
 
     geometry = ones(ComplexF64, ny, nx) * eps_background
 
-    index_top_substrate = floor(Int64, Ly_pml * 0.7/ δ) # 80% of the domain is substrate
+    index_top_substrate = floor(Int64, Ly_pml * 0.6/ δ) # 80% of the domain is substrate
 
     # substrate
     geometry[index_top_substrate:end, :] .= eps_substrate

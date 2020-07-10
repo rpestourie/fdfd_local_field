@@ -124,8 +124,8 @@ function ϵ_pillar_function(x, y, ps; refractive_indexes=zeros(3))
     # material properties of the unit-cell
     if refractive_indexes == zeros(3)
         refractive_index_background = 1.0
-        refractive_index_pillar = 1.0
-        refractive_index_substrate = 1.45
+        refractive_index_pillar = 2.0
+        refractive_index_substrate = 1.4
     else
         refractive_index_background, refractive_index_pillar,
         refractive_index_substrate = refractive_indexes

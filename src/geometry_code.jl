@@ -88,3 +88,87 @@ function ϵ_hole_layers(x, y, ps; refractive_indexes=zeros(3), interstice = 0.5,
 
     return geometry
 end
+
+
+
+"""
+```function ϵ_pillar_functionx(x, y, ps; refractive_indexes=zeros(3))```
+return the permittivity of a unit-cell which consists of a pillar on top of a substrate
+
+
+Arguments:
+
+- ps : width and height of the pillar
+- refractive_indexes : optional argument with refractive indexes of background, hole and substrate. For reference simulation: set refractive indexes to ones(3)*eps_substrate
+
+Returns:
+
+- geometry : a complex array with the epsilon data of the unit-cell
+"""
+function ϵ_pillar_functionx(x, y, ps; refractive_indexes=zeros(3))
+    @assert length(x)> 2 # makes sure δ is defined
+    @assert length(ps) == 2 
+    width = ps[1]
+    height = ps[2]
+    
+    nx, ny = length(x), length(y)
+    δ = x[2] - x[1]
+    Ly_pml = y[end] - y[1] + δ
+    Lx = x[end] - x[1] + δ
+    p = width/Lx
+
+    @assert all(ps .> δ) # makes sure pixel-averaging handles all cases
+    @assert (width <= Lx) # makes sure that the pillar width are not bigger than the period
+    @assert (height <= Ly_pml) # makes sure that height fits in domain (TODO: need to be careful of PML)
+    
+    # material properties of the unit-cell
+    if refractive_indexes == zeros(3)
+        refractive_index_background = 1.0
+        refractive_index_pillar = 1.0
+        refractive_index_substrate = 1.45
+    else
+        refractive_index_background, refractive_index_pillar,
+        refractive_index_substrate = refractive_indexes
+    end
+    
+    eps_background, eps_pillar, eps_substrate =
+    refractive_index_background^2, refractive_index_pillar^2,
+    refractive_index_substrate^2
+
+    geometry = ones(ComplexF64, ny, nx) * eps_background
+
+    index_top_substrate = floor(Int64, Ly_pml * 0.7/ δ) # 80% of the domain is substrate
+
+    # substrate
+    geometry[index_top_substrate:end, :] .= eps_substrate
+
+    # handles case for sub-pixel averaging
+    if x[nx÷2] == 0
+        w_offset=1/2
+    else
+        w_offset=0
+    end
+
+    # pillar
+    n_pillar_height = floor(Int64, height / δ)
+
+    half_width = p/2δ - w_offset
+    n_half_width = floor(Int64, half_width)
+    weight_eps_hole = half_width - n_half_width
+
+    # inside pillar
+    n_start = floor(Int64, (nx - 2*n_half_width)/2 - w_offset)
+    geometry[index_top_substrate-n_pillar_height:index_top_substrate,
+    n_start + 1: n_start + floor(Int64, 2*(n_half_width + w_offset)) + 1] .=
+    eps_pillar
+
+    # pixel averaging
+    # left
+    geometry[index_top_substrate-n_pillar_height:index_top_substrate, n_start] .=
+    weight_eps_hole * eps_pillar + (1 - weight_eps_hole) * eps_background
+    # right
+    geometry[index_top_substrate-n_pillar_height:index_top_substrate, end-n_start+1] .=
+    weight_eps_hole * eps_pillar + (1 - weight_eps_hole) * eps_background
+
+    return geometry
+end

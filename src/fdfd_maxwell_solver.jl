@@ -48,8 +48,8 @@ function Maxwell_2d(Lx, Ly, ϵ, ω, dpml, resolution;
     D = sparse(Imat, J, V, nx+1, nx)
     ∇2x = transpose(D) * D
     #periodic boundary condition in x direction
-    ∇2x[end,1].=-1/δ^2
-    ∇2x[1,end].=-1/δ^2
+    ∇2x[end,1]-=1/δ^2
+    ∇2x[1,end]-=1/δ^2
 
     #define the laplacian operator in y direction
     o = ones(ny) / δ

@@ -56,3 +56,9 @@ function get_local_field(ps; simulate_unit_cell=simulation_hole_layers_unit_cell
     interstice = interstice, hole = hole, Ly = Ly)
     return x, y, mean(Ez[(dpml + dsource) * resolution, :])
 end
+
+function get_local_field(ps; kwargs**)
+    x, y, Ez, dpml, dsource, resolution = simulate_unit_cell(ps,
+    kwargs**)
+    return x, y, mean(Ez[(dpml + dsource) * resolution, :])
+end

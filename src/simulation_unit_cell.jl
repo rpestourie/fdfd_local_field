@@ -60,7 +60,7 @@ function simulation_pillar_unit_cell(p; kwargs=Dict())
     resolution = get(kwargs, "resolution", 40)
     dpml = get(kwargs, "dpml", 2)
     Lx = get(kwargs, "Lx", 1)
-    dsource = get(kwargs, "Lx", 1)
+    dsource = get(kwargs, "dsource", 1)
     
     ω = 2pi*frequency
 

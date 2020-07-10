@@ -137,7 +137,7 @@ function ϵ_pillar_function(x, y, ps; refractive_indexes=zeros(3))
 
     geometry = ones(ComplexF64, ny, nx) * eps_background
 
-    index_top_substrate = floor(Int64, Ly_pml * 0.6/ δ) # 80% of the domain is substrate
+    index_top_substrate = floor(Int64, Ly_pml * 0.5/ δ) # 80% of the domain is substrate
 
     # substrate
     geometry[index_top_substrate:end, :] .= eps_substrate
@@ -158,16 +158,16 @@ function ϵ_pillar_function(x, y, ps; refractive_indexes=zeros(3))
 
     # inside pillar
     n_start = floor(Int64, (nx - 2*n_half_width)/2 - w_offset)
-    geometry[index_top_substrate-n_pillar_height:index_top_substrate,
+    geometry[index_top_substrate-n_pillar_height:index_top_substrate-1,
     n_start + 1: n_start + floor(Int64, 2*(n_half_width + w_offset)) + 1] .=
     eps_pillar
 
     # pixel averaging
     # left
-    geometry[index_top_substrate-n_pillar_height:index_top_substrate, n_start] .=
+    geometry[index_top_substrate-n_pillar_height:index_top_substrate-1, n_start] .=
     weight_eps_hole * eps_pillar + (1 - weight_eps_hole) * eps_background
     # right
-    geometry[index_top_substrate-n_pillar_height:index_top_substrate, end-n_start+1] .=
+    geometry[index_top_substrate-n_pillar_height:index_top_substrate-1, end-n_start+1] .=
     weight_eps_hole * eps_pillar + (1 - weight_eps_hole) * eps_background
 
     return geometry

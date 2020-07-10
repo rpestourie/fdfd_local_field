@@ -55,7 +55,7 @@ function simulation_pillar_unit_cell(p; kwargs=Dict())
     
     #parameters for Maxwell solver
     refractive_indexes= get(kwargs, "refractive_indexes", [1., 2., 1.4])
-    frequency= get(kwargs, "frequency", 1)
+    frequency= get(kwargs, "frequency", 1.)
     Ly = get(kwargs, "Ly", 7)
     resolution = get(kwargs, "resolution", 40)
     dpml = get(kwargs, "dpml", 2)

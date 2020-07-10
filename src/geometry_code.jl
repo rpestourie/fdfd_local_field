@@ -92,7 +92,7 @@ end
 
 
 """
-```function ϵ_pillar_functionx(x, y, ps; refractive_indexes=zeros(3))```
+```function ϵ_pillar_function(x, y, ps; refractive_indexes=zeros(3))```
 return the permittivity of a unit-cell which consists of a pillar on top of a substrate
 
 
@@ -105,7 +105,7 @@ Returns:
 
 - geometry : a complex array with the epsilon data of the unit-cell
 """
-function ϵ_pillar_functionx(x, y, ps; refractive_indexes=zeros(3))
+function ϵ_pillar_function(x, y, ps; refractive_indexes=zeros(3))
     @assert length(x)> 2 # makes sure δ is defined
     @assert length(ps) == 2 
     width = ps[1]

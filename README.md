@@ -1,7 +1,7 @@
-# fdfd_local_field
+# FDFD Local Field
 
 This application solves Maxwell’s equations in the frequency domain in parallel for multiple instances of a parametrized 
-geometry with the goal of 
+geometry using finite difference frequency domain numerical (FDFD) scheme, with the goal of 
 1. solving for metasurfaces using domain decomposition, 
 2. train surrogate models for offline Maxwell’s solve and large-scale optimization. 
 
